@@ -36,7 +36,7 @@ public class BookController {
 		bookServ.saveBook(book);
 	}
 	@DeleteMapping("/deleteBook/{bookId}")
-	public List<Book> deleteBook(int bookId) {
+	public List<Book> deleteBook(@PathVariable int bookId) {
 		return bookServ.deleteBook(bookId);
 	}
 	
