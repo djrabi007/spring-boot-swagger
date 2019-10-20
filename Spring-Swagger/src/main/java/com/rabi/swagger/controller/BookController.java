@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rabi.swagger.dao.BookRepository;
 import com.rabi.swagger.model.Book;
 import com.rabi.swagger.service.BookService;
 
@@ -23,6 +25,9 @@ public class BookController {
 	@Autowired
 	BookService bookServ;
 	
+	@Autowired
+	BookRepository repo;
+	
 	@GetMapping("/searchBook/{bookId}")
 	@ApiOperation(value="Search Book by Rabi")
 	public Optional<Book> 
@@ -31,14 +36,24 @@ public class BookController {
 	}
 	@PostMapping("/saveBook")
 	@ApiOperation(value="Save Book by Rabi")
-	public void
+	public Book
 		saveBook(@RequestBody Book book) {
-		bookServ.saveBook(book);
+		return bookServ.saveBook(book);
+		
 	}
+	
 	@DeleteMapping("/deleteBook/{bookId}")
 	public List<Book> deleteBook(@PathVariable int bookId) {
 		return bookServ.deleteBook(bookId);
 	}
-	
+	@PutMapping("/saveBook/{bookId}")
+	   Book saveOrUpdate(@RequestBody Book newBook, @PathVariable Integer bookId){
+			return bookServ.saveOrUpdate(newBook,bookId);
+			
+	    }
+	@GetMapping("/allBook")
+	 public List<Book> allBook() {
+			return bookServ.allBook();
+		}
 	
 }
