@@ -40,9 +40,9 @@ public class RegistrationController {
 	public Optional<AngularUser> findUserById(@PathVariable Long id ) {
 		return userRepo.findById(id);
 	}
-	@GetMapping("/findUser/{email}")
-	public Optional<AngularUser> findUserByEmail(@PathVariable Long email ) {
-		return userRepo.findById(email);
+	@GetMapping("/findUserByEmail/{email}")
+	public List<AngularUser> findUserByEmail(@PathVariable String email ) {
+		return userRepo.findByEmail(email);
 	}
 	
 	@DeleteMapping("/cancel/{id}")
