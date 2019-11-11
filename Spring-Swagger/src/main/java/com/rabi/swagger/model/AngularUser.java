@@ -18,10 +18,10 @@ public class AngularUser {
 	
 	public AngularUser() {}
 
-	/*public Long getId() {
+	public Long getId() {
 		return Id;
 	}
-
+/*
 	public void setId(Long id) {
 		Id = id;
 	}*/
