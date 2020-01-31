@@ -28,12 +28,13 @@ public class BookController {
 	@Autowired
 	BookRepository repo;
 	
-	@GetMapping("/searchBook/{bookId}")
-	@ApiOperation(value="Search Book by Rabi")
+	@GetMapping("/searchBookByH2/{bookId}")
+	@ApiOperation(value="Search Book by Rabi -H2")
 	public Optional<Book> 
-	searchBook1(@PathVariable int bookId) {
-		return bookServ.searchBook(bookId);
+	searchBookByH2(@PathVariable int bookId) {
+		return bookServ.searchBookByH2(bookId);
 	}
+	
 	@PostMapping("/saveBook")
 	@ApiOperation(value="Save Book by Rabi")
 	public Book
@@ -43,9 +44,35 @@ public class BookController {
 	}
 	
 	@DeleteMapping("/deleteBook/{bookId}")
+	@ApiOperation(value="DELETE Book by Rabi -H2")
 	public List<Book> deleteBook(@PathVariable int bookId) {
 		return bookServ.deleteBook(bookId);
 	}
+	//  JDBC ----GET
+	@GetMapping("/searchBookByJDBC/{bookId}")
+	@ApiOperation(value="Search Book by Rabi- JDBC")
+	public Book
+	searchBookByJdbc(@PathVariable int bookId) {
+		return bookServ.searchBookByJdbc(bookId);
+	}
+	
+	//  JDBC ----POST
+	@PostMapping("/saveBookByJdbc")
+	@ApiOperation(value="Save Book by Rabi -JDBC")
+	public String
+	saveBookByJdbc(@RequestBody Book book) {
+		return bookServ.saveBookByJdbc(book);
+		
+	}
+	//  JDBC ----DELETE
+	@DeleteMapping("/deleteBookByJdbc/{bookId}")
+	@ApiOperation(value="DELETE Book by Rabi -JDBC")
+	public String deleteBookByJdbc(@PathVariable int bookId) {
+		return bookServ.deleteBookByJdbc(bookId);
+	}
+	
+	
+	
 	@PutMapping("/saveBook/{bookId}")
 	   Book saveOrUpdate(@RequestBody Book newBook, @PathVariable Integer bookId){
 			return bookServ.saveOrUpdate(newBook,bookId);

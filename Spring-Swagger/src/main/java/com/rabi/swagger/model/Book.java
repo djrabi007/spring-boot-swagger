@@ -27,12 +27,13 @@ public class Book implements Serializable{
 	int bookid;
 	String bookname;
 	int price;
-	/*public int getBookid() {
+	public int getBookid() {
 		return bookid;
 	}
+	
 	public void setBookid(int bookid) {
 		this.bookid = bookid;
-	}*/
+	}
 	public String getBookname() {
 		return bookname;
 	}
