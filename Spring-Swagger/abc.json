@@ -1,0 +1,31 @@
+[
+  {
+   
+    "name": "Category Rabi",
+    "books": [
+      {
+        "name": "Book R1"
+      },
+      {
+         "name": "Book R2"
+      },
+      {
+         "name": "Book R3"
+      }
+    ]
+  },
+  {
+    "name": "Category Swagata",
+    "books": [
+      {
+         "name": "Book S1"
+      },
+      {
+          "name": "Book S2"
+      },
+      {
+          "name": "Book S3"
+      }
+    ]
+  }
+]
