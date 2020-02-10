@@ -9,12 +9,14 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rabi.swagger.dao.BookCategoryNewRepository;
+import com.rabi.swagger.dao.BookNewRepository;
 import com.rabi.swagger.model.BookCategoryNew;
 import com.rabi.swagger.model.BookNew;
 
@@ -29,7 +31,10 @@ import io.swagger.annotations.ApiOperation;
 public class BookCategoryNewController {
 	
 	@Autowired
-	BookCategoryNewRepository repo;
+	BookCategoryNewRepository bookCatrepo;
+	
+	@Autowired
+	BookNewRepository bookNewRepo;
 	
 	
 	@GetMapping("/saveBookCategoryByHardCode")
@@ -50,24 +55,39 @@ public class BookCategoryNewController {
         bookBs.add(new BookNew("Book B3", categoryB));
         categoryB.setBooks(bookBs);
 
-        return repo.saveAll(Arrays.asList(categoryA, categoryB));
+        return bookCatrepo.saveAll(Arrays.asList(categoryA, categoryB));
 		
 	}
 	
 
-	//TODO- NOT Working properly
-	@PostMapping("/saveBookCategoryByService")
-	@ApiOperation(value="Save Book Category- by Service (NOT Working properly)")
+	@PostMapping("/saveBookCategoryByService/{categorieType}")
+	@ApiOperation(value="Save Book Category- by Service ")
 	@Transactional
-	public List<BookCategoryNew> saveBookCategory(@RequestBody List<BookCategoryNew> bookCatList ) {
-
-        return repo.saveAll(bookCatList);
+	public BookCategoryNew saveBookCategory(@RequestBody Set<BookNew> bookSet 
+										, @PathVariable String categorieType ) {
+		 BookCategoryNew categorie = new BookCategoryNew(categorieType);
+		 Set<BookNew> bookSetFinal= new HashSet<>();
+		 //Update Category with Set<BookNew>
+		categorie.setBooks(bookSet);
+		categorie= bookCatrepo.save(categorie);
+		
+		//Update BookNew with Info of CategoryNew
+        for(BookNew bookNew:bookSet)
+        {
+        	bookNew.setBookCategoryNew(categorie);
+        	bookSetFinal.add(bookNew);
+        }
+        //Save BookNew into Database
+        bookNewRepo.saveAll(bookSetFinal);
+        
+        return categorie;
+        
 		
 	}
 	
 	@GetMapping("/allBookCategory")
 	 public List<BookCategoryNew> allBookCategory() {
-			return repo.findAll();
+			return bookCatrepo.findAll();
 		}
 	
 }
