@@ -76,6 +76,16 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		<!-- JDBC support -END -->
+		
+		<!-- For StringUtils.... ValidationController -Start -->
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-lang3</artifactId>
+		<version>3.0</version>
+	</dependency>
+		
+		<!-- For StringUtils.... ValidationController -End -->
+		
 	</dependencies>
 
 	<build>
