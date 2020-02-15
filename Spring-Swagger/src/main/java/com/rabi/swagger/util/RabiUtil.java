@@ -1,5 +1,8 @@
 package com.rabi.swagger.util;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -9,6 +12,19 @@ public class RabiUtil {
 	
 	
 	
+	public static void closeRsPs(PreparedStatement ps,ResultSet rs)
+			throws SQLException
+	{
+		if(rs!=null && !rs.isClosed())
+		{
+			rs.close();
+		}
+		if(ps!=null && !ps.isClosed())
+		{
+			ps.close();
+		}
+		
+	}
 
 	public static String convertJavaToSQLDate(final String stringDate) throws ParseException {
 		String sqlDateStr="";
