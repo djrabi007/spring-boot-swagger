@@ -7,7 +7,7 @@ import java.util.Map;
 public class BestPracticeResponse {
 	
 	private int count;
-	private List<Map<String,String>> mapList= new ArrayList<>()
+	private List<Map<String,String>> mapList= new ArrayList<>();
 	private List<String> errorList= new ArrayList<>();
 	public int getCount() {
 		return count;
