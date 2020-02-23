@@ -18,7 +18,7 @@ public class CategoryUserConfig {
 		return 
 			new Docket(DocumentationType.SWAGGER_2)
 			.groupName("Rabi  category world").apiInfo(apiInfo())
-			.select().paths(regex("/categoryRabi.*")).build();
+			.select().paths(regex("/categoryservice.*")).build();
 	}
 	
 	private ApiInfo apiInfo() {

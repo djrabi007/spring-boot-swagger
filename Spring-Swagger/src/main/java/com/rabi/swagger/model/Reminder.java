@@ -21,8 +21,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Reminder {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String name;
+	private int reminderId; //REMINDER_ID
+	//private String name;
+	
+	private String reminderName;
+	private String reminderDescription;
+	private String reminderType;
 	
 	@ManyToOne
 	@JoinColumn(name = "REM_NOTE_ID")
@@ -37,54 +41,68 @@ public class Reminder {
 	    public Reminder() {
 
 	    }
-	    
-	    
 
-
-		public Reminder(int id, String name) {
+		
+		public Reminder(int reminderId, String reminderName) {
 			super();
-			this.id = id;
-			this.name = name;
+			this.reminderId = reminderId;
+			this.reminderName = reminderName;
+		}
+
+		
+		
+
+		public int getReminderId() {
+			return reminderId;
 		}
 
 
-
-
-		public int getId() {
-			return id;
+		public void setReminderId(int reminderId) {
+			this.reminderId = reminderId;
 		}
 
 
-		public void setId(int id) {
-			this.id = id;
+		public String getReminderName() {
+			return reminderName;
 		}
 
-
-		public String getName() {
-			return name;
+		public void setReminderName(String reminderName) {
+			this.reminderName = reminderName;
 		}
 
-
-		public void setName(String name) {
-			this.name = name;
+		public String getReminderDescription() {
+			return reminderDescription;
 		}
 
+		public void setReminderDescription(String reminderDescription) {
+			this.reminderDescription = reminderDescription;
+		}
+
+		public String getReminderType() {
+			return reminderType;
+		}
+
+		public void setReminderType(String reminderType) {
+			this.reminderType = reminderType;
+		}
 
 		public Note getNoteNew() {
 			return noteNew;
 		}
 
-
 		public void setNoteNew(Note noteNew) {
 			this.noteNew = noteNew;
 		}
+
 		public USER getUserRemNew() {
 			return userRemNew;
 		}
+
 		public void setUserRemNew(USER userRemNew) {
 			this.userRemNew = userRemNew;
 		}
 
+		
 	    
 	    
 }

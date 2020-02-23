@@ -17,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "USER")
 public class USER {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 	
     private String name;
 
@@ -48,11 +48,11 @@ public class USER {
         this.name = name;
     }
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

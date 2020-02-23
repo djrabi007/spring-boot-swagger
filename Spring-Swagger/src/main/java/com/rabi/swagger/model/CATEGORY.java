@@ -20,8 +20,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class CATEGORY {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String name;
+	private int categoryId; //CATEGORY_ID,CATEGORY_NAME
+	
+	// private int id;
+	//private String name;
+	
+	private String categoryName;//CATEGORY_NAME
+	private String categoryDescription;//CATEGORY_DESCRIPTION
 
 	@ManyToOne
 	@JoinColumn(name = "USER_CAT_ID")
@@ -32,27 +37,51 @@ public class CATEGORY {
 
 	}
 
-	public CATEGORY(int id, String name) {
+
+
+	public CATEGORY(int categoryId, String categoryName) {
 		super();
-		this.id = id;
-		this.name = name;
+		this.categoryId = categoryId;
+		this.categoryName = categoryName;
 	}
 
-	public int getId() {
-		return id;
+
+
+	public int getCategoryId() {
+		return categoryId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 
-	public String getName() {
-		return name;
+
+
+	public String getCategoryName() {
+		return categoryName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
+
+
+
+	public String getCategoryDescription() {
+		return categoryDescription;
+	}
+
+
+
+	public void setCategoryDescription(String categoryDescription) {
+		this.categoryDescription = categoryDescription;
+	}
+
+
 
 	public USER getUserCatNew() {
 		return userCatNew;

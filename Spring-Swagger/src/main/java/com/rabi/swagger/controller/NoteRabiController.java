@@ -10,6 +10,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +42,8 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@RequestMapping("/noteRabi")
+@RequestMapping("/noteservice")
+@CrossOrigin("http://localhost:4200")
 public class NoteRabiController {
 	@Autowired
 	NoteRepository noteRepo;
@@ -53,54 +57,93 @@ public class NoteRabiController {
 	
 
 	
-	
-	@GetMapping("/getNoteByUserId/{userId}")
-	public List<Note> getAllNotesByUserId(@PathVariable int userId) {
+	@GetMapping("/api/v1/note/{userId}")
+	//@GetMapping("/getNoteByUserId/{userId}")
+	public List<Note> getAllNotesByUserId(@PathVariable String userId) {
 		return noteRepoJdbc.searchNoteByUserId(userId);
 	}
 	
-	@GetMapping("/getNoteByNoteIdUserId/{noteId}/{userId}")
-	public List<Note> getAllNotesByNoteIdUserId(@PathVariable int noteId,@PathVariable int userId) {
+	@GetMapping("/api/v1/note/{userId}/{noteId}")
+	//@GetMapping("/getNoteByNoteIdUserId/{noteId}/{userId}")
+	public List<Note> getAllNotesByNoteIdUserId(@PathVariable int noteId,@PathVariable String userId) {
 		return noteRepoJdbc.searchNoteByNoteIdUserId(noteId,userId);
 	}
 	
-	@PutMapping("/updateNoteByNoteIdUserId/{noteId}/{userId}")
+	@PutMapping(path = "/api/v1/note/{userId}/{noteId}")
+	//@PutMapping("/updateNoteByNoteIdUserId/{noteId}/{userId}")
 	@ApiOperation(value="UPDATE User(1) Note(M)- by Service ")
 	@Transactional
-	public List<Note> updateAllNotesByNoteIdUserId(@RequestBody Note note,@PathVariable int noteId,@PathVariable int userId) {
+	public List<Note> updateAllNotesByNoteIdUserId(@RequestBody Note note,@PathVariable int noteId,@PathVariable String userId) {
 		return noteRepoJdbc.updateAllNotesByNoteIdUserId(note,noteId,userId);
 	}
 	
-	@DeleteMapping("/deleteNoteByUserId/{userId}")
+	@DeleteMapping("/api/v1/note/{userId}")
+	//@DeleteMapping("/deleteNoteByUserId/{userId}")
 	@ApiOperation(value="DELETE User(1) Note(M)- by Service ")
 	@Transactional
-	public List<Note> deleteAllNotesByUserId(@PathVariable int userId) {
+	public List<Note> deleteAllNotesByUserId(@PathVariable String userId) {
 		return noteRepoJdbc.deleteAllNotesByUserId(userId);
 	}
-
-
 	
-	
-	
-	@PostMapping("/saveUserNoteByService/{userName}")
-	@ApiOperation(value="Save User(1) Note(M)- by Service ")
+	@DeleteMapping("/api/v1/note/{userId}/{noteId}")
+	//@DeleteMapping("/deleteNoteByUserId/{noteId}/{userId}")
+	@ApiOperation(value="DELETE User(1) Note(M) (Note and User ID)- by Service ")
 	@Transactional
-	public USER saveUserNote(@RequestBody Set<Note> noteSet 
-										, @PathVariable String userName ) {
-		USER user=new USER(userName);
-		Set<Note> noteFinalSet= new HashSet<>();
-		 user.setNoteSet(noteSet);
-		 user=userRepo.save(user);
-		//Update Note with Info of User (ID..i.e Object Save)
-        for(Note noteNew:noteSet)
-        {
-        	noteNew.setUserNew(user);
-        	noteFinalSet.add(noteNew);
-        }
-        //Save BookNew into Database
-        noteRepo.saveAll(noteFinalSet);
-        return user;
+	public List<Note> deleteAllNotesByNoteIdUserId(@PathVariable int noteId,@PathVariable String userId) {
+		return noteRepoJdbc.deleteAllNotesByNoteIdUserId(noteId,userId);
 	}
+
+	
+	@PostMapping("/api/v1/note/{userName}")
+	@ApiOperation(value="Save Note +username - by Service ")
+	@Transactional
+	public Note saveReminderByUserId(@RequestBody Note note ,@PathVariable String userName) {
+        
+		USER user=new USER(userName);
+		user.setId(userName); //Manually Assign!!!!!!!!!!!!!!! as No @GeneratedValue at @ID
+		
+		Set<Note> noteFinalSet= new HashSet<>();
+		note.setUserNew(user);
+		noteFinalSet.add(note);
+		 
+		user.setNoteSet(noteFinalSet);
+		 
+		user=userRepo.save(user);
+		//Save Note into Database
+		return  noteRepo.save(note);
+	}
+	
+	
+	@PostMapping("/api/v1/note11111111111111111111111")
+	@ApiOperation(value="Save NOTE ONLY!!!- by Service ")
+	@Transactional
+	public Note createNote(@RequestBody Note note) {
+		return noteRepo.save(note);
+	}
+
+		@PostMapping("/api/v1/noteEEEEEEEEEEEEEEEEEEEEEEEEEE/{userName}")
+		//@PostMapping("/saveUserNoteByService/{userName}")
+		@ApiOperation(value="Save User(1) Note(M)- by Service ")
+		@Transactional
+		public USER saveUserNote1111111111111111111111111111(@RequestBody Set<Note> noteSet 
+											, @PathVariable String userName ) {
+			USER user=new USER(userName);
+			Set<Note> noteFinalSet= new HashSet<>();
+			 user.setNoteSet(noteSet);
+			 user=userRepo.save(user);
+			//Update Note with Info of User (ID..i.e Object Save)
+	        for(Note noteNew:noteSet)
+	        {
+	        	noteNew.setUserNew(user);
+	        	noteFinalSet.add(noteNew);
+	        }
+	        //Save BookNew into Database
+	        noteRepo.saveAll(noteFinalSet);
+	        return user;
+		}
+		
+
+	
 	@PostMapping("/saveReminderNoteByService/{noteName}")
 	@ApiOperation(value="Save Note(1) Reminder(M)- by Service ")
 	@Transactional
@@ -109,7 +152,7 @@ public class NoteRabiController {
 		Note note=new Note(noteName);
 		Set<Reminder> remFinalSet= new HashSet<>();
 		//Update Note with Set<Reminder>
-		 note.setRemNew(remSet);
+		 note.setReminder(remSet);
 		 note= noteRepo.save(note);
 		//Update Reminder with Info of Note (ID..i.e Object Save)
         for(Reminder remNew:remSet)
@@ -129,15 +172,15 @@ public class NoteRabiController {
 	public List<Note> saveReminderNoteByHardcode() {
 		final Note noteA = new Note("Note A");
 		Set<Reminder> remASet = populateReminderSet(noteA, "RemA1-Roddur", "RemA2- Roddue");
-		noteA.setRemNew(remASet);
+		noteA.setReminder(remASet);
 		
 		final Note noteB = new Note("Note B");
 		Set<Reminder> remBSet = populateReminderSet(noteB, "RemB1-Swagata", "RemB2- Swagata");
-		noteB.setRemNew(remBSet);
+		noteB.setReminder(remBSet);
 		
 		final Note noteC = new Note("Note C");
 		Set<Reminder> remCSet = populateReminderSet(noteC, "RemB1-Rabi", "RemB2- Rabi");
-		noteC.setRemNew(remCSet);
+		noteC.setReminder(remCSet);
 		
 		return noteRepo.saveAll(Arrays.asList(noteA,noteB,noteC));
 			
@@ -147,12 +190,12 @@ public class NoteRabiController {
 		Set<Reminder> remASet = new HashSet<>();
 				Reminder rem1 =new Reminder();
 				//No ID set as genetrated automatically
-				rem1.setName(reminder1);
+				rem1.setReminderName(reminder1);
 				rem1.setNoteNew(noteA);//Link with Note
 				
 				Reminder rem2 =new Reminder();
 				//No ID set as genetrated automatically
-				rem2.setName(reminder2);
+				rem2.setReminderName(reminder2);
 				rem2.setNoteNew(noteA);//Link with Note
 		
 				remASet.add(rem1);

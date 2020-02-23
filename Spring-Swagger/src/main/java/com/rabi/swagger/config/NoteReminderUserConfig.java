@@ -18,7 +18,7 @@ public class NoteReminderUserConfig {
 		return 
 			new Docket(DocumentationType.SWAGGER_2)
 			.groupName("Rabi Note Reminder world").apiInfo(apiInfo())
-			.select().paths(regex("/noteRabi.*")).build();
+			.select().paths(regex("/noteservice.*")).build();
 	}
 	
 	private ApiInfo apiInfo() {

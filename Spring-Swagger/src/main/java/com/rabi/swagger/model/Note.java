@@ -19,41 +19,44 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "NOTE")
 public class Note {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-	
-    private String name;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private int id;
+//    private String name;
 
-    @OneToMany(mappedBy = "noteNew",fetch=FetchType.LAZY,
-    		cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Reminder> remNew;
-    
-    
+	private int noteId;
+	private String noteTitle;
+	private String noteContent;
+	private String noteStatus;
+
+	@OneToMany(mappedBy = "noteNew", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
+	//private Set<Reminder> remNew;
+	private Set<Reminder> reminder;
+
 	@ManyToOne
 	@JoinColumn(name = "USER_NOTE_ID")
 	@JsonIgnore
 	private USER userNew;
 
-    public Note(){
+	public Note() {
 
-    }
-
-	public Note(String name) {
-        this.name = name;
-    }
-
-	
-	public Note(int id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
 	}
 
-	public Note(int id, String name, USER userNew) {
+	public Note(String noteTitle) {
 		super();
-		this.id = id;
-		this.name = name;
+		this.noteTitle = noteTitle;
+	}
+
+	public Note(int noteId, String noteTitle) {
+		super();
+		this.noteId = noteId;
+		this.noteTitle = noteTitle;
+	}
+
+	public Note(int noteId, String noteTitle, USER userNew) {
+		super();
+		this.noteId = noteId;
+		this.noteTitle = noteTitle;
 		this.userNew = userNew;
 	}
 
@@ -65,44 +68,57 @@ public class Note {
 		this.userNew = userNew;
 	}
 
-	public int getId() {
-		return id;
+
+	public Set<Reminder> getReminder() {
+		return reminder;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setReminder(Set<Reminder> reminder) {
+		this.reminder = reminder;
 	}
 
-	public String getName() {
-		return name;
+	public int getNoteId() {
+		return noteId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNoteId(int noteId) {
+		this.noteId = noteId;
 	}
 
-	public Set<Reminder> getRemNew() {
-		return remNew;
+	public String getNoteTitle() {
+		return noteTitle;
 	}
 
-	public void setRemNew(Set<Reminder> remNew) {
-		this.remNew = remNew;
+	public void setNoteTitle(String noteTitle) {
+		this.noteTitle = noteTitle;
 	}
 
+	public String getNoteContent() {
+		return noteContent;
+	}
+
+	public void setNoteContent(String noteContent) {
+		this.noteContent = noteContent;
+	}
+
+	public String getNoteStatus() {
+		return noteStatus;
+	}
+
+	public void setNoteStatus(String noteStatus) {
+		this.noteStatus = noteStatus;
+	}
 
 	@Override
-    public String toString() {
-        String result = String.format(
-                "Note[id=%d, name='%s']%n",
-                id, name);
-        if (remNew != null) {
-            for(Reminder rmOnly : remNew) {
-                result += String.format(
-                        "Reminder[id=%d, name='%s']%n",
-                        rmOnly.getId(), rmOnly.getName());
-            }
-        }    
-        return result;
-    }
-	
+	public String toString() {
+		String result = String.format("Note[id=%d, name='%s']%n", noteId, noteTitle);
+		if (reminder != null) {
+			for (Reminder rmOnly : reminder) {
+				result += String.format("Reminder[id=%d, name='%s']%n", rmOnly.getReminderId(),
+						rmOnly.getReminderName());
+			}
+		}
+		return result;
+	}
+
 }

@@ -18,7 +18,7 @@ public class ReminderUserConfig {
 		return 
 			new Docket(DocumentationType.SWAGGER_2)
 			.groupName("Rabi  Reminder world").apiInfo(apiInfo())
-			.select().paths(regex("/reminderRabi.*")).build();
+			.select().paths(regex("/reminderservice.*")).build();
 	}
 	
 	private ApiInfo apiInfo() {
