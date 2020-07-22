@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,7 +26,13 @@ public class Reminder {
 	//private String name;
 	
 	private String reminderName;
+
+	@NotBlank(message = "reminderDescription is mandatory")
 	private String reminderDescription;
+
+	// @NotNull
+	// @NotEmpty
+	@NotBlank(message = "reminderType is mandatory")
 	private String reminderType;
 	
 	@ManyToOne

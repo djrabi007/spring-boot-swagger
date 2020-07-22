@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -62,7 +63,7 @@ public class ReminderRabiController {
 	@PostMapping("/api/v1/reminder/{userName}")
 	@ApiOperation(value = "Save Reminder +username - by Service ")
 	@Transactional
-	public Reminder saveReminderByUserId(@RequestBody Reminder rem, @PathVariable String userName) {
+	public Reminder saveReminderByUserId(@RequestBody @Valid Reminder rem, @PathVariable String userName) {
 
 		return remService.saveReminderByUserId(rem, userName);
 	}
