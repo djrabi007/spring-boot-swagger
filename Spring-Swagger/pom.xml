@@ -85,6 +85,12 @@
 	</dependency>
 		
 		<!-- For StringUtils.... ValidationController -End -->
+		<!--  AOP implementation -Start -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<!--  AOP implementation -End -->
 		
 	</dependencies>
 
